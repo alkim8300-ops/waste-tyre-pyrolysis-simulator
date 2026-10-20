@@ -185,6 +185,193 @@ HAVING AVG(u103_kiln_pressure_kpa) &gt; 2.8
       </ul>
     </details>
   </section>
+  <section class="charts-card" aria-labelledby="h-risk" style="grid-column: 1 / -1; margin-top: 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+      <div>
+        <h2 id="h-risk" style="margin: 0;">Stochastic TEA Risk &amp; Sensitivity Analysis (1,000-Draw Monte Carlo)</h2>
+        <p class="note" style="margin: 4px 0 0;">Evaluates ±20% parameter swings and triangular uncertainty across TPO price, rCB price, CAPEX ($280k–$365k), and Year-1 ramp-up (70%–100%).</p>
+      </div>
+      <button id="btn-run-mc" type="button" style="background: #0284c7; color: #fff; border: 1px solid #38bdf8; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;">
+        ↻ Re-run 1,000 Monte Carlo Draws
+      </button>
+    </div>
+
+    <div class="kpi-strip" style="margin-bottom: 16px;" aria-live="polite">
+      <div><span>P10 NPV (Downside)</span><strong id="mc-p10" style="color: #f87171;">—</strong></div>
+      <div><span>P50 NPV (Median)</span><strong id="mc-p50" style="color: #38bdf8;">—</strong></div>
+      <div><span>P90 NPV (Upside)</span><strong id="mc-p90" style="color: #34d399;">—</strong></div>
+      <div><span>Probability NPV &gt; $0</span><strong id="mc-prob" style="color: #a855f7;">—</strong></div>
+    </div>
+
+    <div class="two-col" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+      <div class="chart-box"><canvas id="tornadoChart" role="img" aria-label="Tornado sensitivity chart of NPV drivers"></canvas></div>
+      <div class="chart-box"><canvas id="mcChart" role="img" aria-label="Monte Carlo NPV probability distribution"></canvas></div>
+    </div>
+  </section>
+
+  <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    // Baseline 10-TPD reference parameters matching data/baseline_10tpd_nairobi.json
+    const BASE = {
+      tpo_price: 550, rcb_price: 380, steel_price: 220, elt_cost: 25,
+      capex: 280000, op_days: 330, tpd: 10, temp_c: 500,
+      power_tariff: 0.14, labour: 78000, maint: 22200, tax: 0.30, discount: 0.14
+    };
+
+    function evalNPV(p, rampYr1 = 1.0) {
+      const dT = p.temp_c - 500;
+      const y_oil = (44.2 - 0.00115 * dT * dT) / 100;
+      const dT4 = p.temp_c - 400;
+      const y_gas = (9.8 + 0.055 * dT4 + 0.00018 * dT4 * dT4) / 100;
+      const y_steel = 0.12;
+      const y_rcb = Math.max(0, 1 - (y_oil + y_gas + y_steel));
+
+      const annual_t = p.tpd * p.op_days;
+      const rev_full = annual_t * (y_oil * p.tpo_price + y_rcb * p.rcb_price + y_steel * p.steel_price);
+      const opex_full = annual_t * (p.elt_cost + 145 * p.power_tariff + 3.2) + p.labour + p.maint;
+      const dep = p.capex / 10;
+
+      let npv = -p.capex;
+      for (let yr = 1; yr <= 5; yr++) {
+        const factor = yr === 1 ? rampYr1 : 1.0;
+        const ebitda = rev_full * factor - opex_full;
+        const taxable = Math.max(0, ebitda - dep);
+        const cf = ebitda - taxable * p.tax;
+        npv += cf / Math.pow(1 + p.discount, yr);
+      }
+      return npv;
+    }
+
+    // Triangular distribution sampler (min, mode, max)
+    function tri(min, mode, max) {
+      const u = Math.random();
+      const f = (mode - min) / (max - min);
+      return u < f
+        ? min + Math.sqrt(u * (max - min) * (mode - min))
+        : max - Math.sqrt((1 - u) * (max - min) * (max - mode));
+    }
+
+    let tornadoChartInstance = null;
+    let mcChartInstance = null;
+
+    function runRiskSuite() {
+      // 1. Tornado Sensitivity (±20% on key inputs)
+      const baseNPV = evalNPV(BASE, 1.0);
+      const factors = [
+        { label: "TPO Oil Price (±20%)", key: "tpo_price" },
+        { label: "rCB Char Price (±20%)", key: "rcb_price" },
+        { label: "Plant CAPEX (±20%)", key: "capex" },
+        { label: "Operating Days (±15%)", key: "op_days", pct: 0.15 },
+        { label: "ELT Feedstock Cost (±20%)", key: "elt_cost" }
+      ];
+
+      const tornadoData = factors.map(f => {
+        const swing = f.pct || 0.20;
+        const lowP = { ...BASE, [f.key]: BASE[f.key] * (1 - swing) };
+        const highP = { ...BASE, [f.key]: BASE[f.key] * (1 + swing) };
+        const dLow = (evalNPV(lowP) - baseNPV) / 1000;
+        const dHigh = (evalNPV(highP) - baseNPV) / 1000;
+        return { label: f.label, low: dLow, high: dHigh, span: Math.abs(dHigh - dLow) };
+      }).sort((a, b) => b.span - a.span);
+
+      // 2. 1,000-Draw Monte Carlo Simulation
+      const N = 1000;
+      const draws = [];
+      let posCount = 0;
+      for (let i = 0; i < N; i++) {
+        const sample = {
+          ...BASE,
+          tpo_price: tri(430, 550, 640),
+          rcb_price: tri(180, 340, 420), // reflects raw char discount risk
+          capex: tri(260000, 290000, 370000),
+          elt_cost: tri(18, 25, 38),
+          op_days: tri(290, 330, 345)
+        };
+        const ramp = tri(0.70, 0.90, 1.0);
+        const npv = evalNPV(sample, ramp);
+        if (npv > 0) posCount++;
+        draws.push(npv / 1000); // in $k
+      }
+      draws.sort((a, b) => a - b);
+
+      const p10 = draws[Math.floor(N * 0.10)];
+      const p50 = draws[Math.floor(N * 0.50)];
+      const p90 = draws[Math.floor(N * 0.90)];
+
+      document.getElementById("mc-p10").textContent = `$${p10.toFixed(0)}k`;
+      document.getElementById("mc-p50").textContent = `$${p50.toFixed(0)}k`;
+      document.getElementById("mc-p90").textContent = `$${p90.toFixed(0)}k`;
+      document.getElementById("mc-prob").textContent = `${((posCount / N) * 100).toFixed(1)}%`;
+
+      // Bin Monte Carlo draws into histogram
+      const bins = 12;
+      const minV = draws[0], maxV = draws[N - 1];
+      const step = (maxV - minV) / bins || 1;
+      const histCounts = new Array(bins).fill(0);
+      const histLabels = [];
+      for (let b = 0; b < bins; b++) {
+        const edge = minV + (b + 0.5) * step;
+        histLabels.push(`$${edge.toFixed(0)}k`);
+      }
+      draws.forEach(v => {
+        const idx = Math.min(bins - 1, Math.floor((v - minV) / step));
+        histCounts[idx]++;
+      });
+
+      if (typeof Chart === "undefined") return;
+
+      const tCtx = document.getElementById("tornadoChart");
+      if (tornadoChartInstance) tornadoChartInstance.destroy();
+      tornadoChartInstance = new Chart(tCtx, {
+        type: "bar",
+        data: {
+          labels: tornadoData.map(d => d.label),
+          datasets: [
+            { label: "-20% Input Swing (ΔNPV $k)", data: tornadoData.map(d => d.low), backgroundColor: "#f87171" },
+            { label: "+20% Input Swing (ΔNPV $k)", data: tornadoData.map(d => d.high), backgroundColor: "#38bdf8" }
+          ]
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          plugins: { title: { display: true, text: "Tornado Sensitivity: Impact on 5-Yr NPV ($k)", color: "#e2e8f0" } },
+          scales: {
+            x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.15)" } },
+            y: { ticks: { color: "#e2e8f0" }, grid: { display: false } }
+          }
+        }
+      });
+
+      const mCtx = document.getElementById("mcChart");
+      if (mcChartInstance) mcChartInstance.destroy();
+      mcChartInstance = new Chart(mCtx, {
+        type: "bar",
+        data: {
+          labels: histLabels,
+          datasets: [{
+            label: "Simulated Plants (out of 1,000)",
+            data: histCounts,
+            backgroundColor: histLabels.map(l => l.includes("-") ? "rgba(248,113,113,0.7)" : "rgba(52,211,153,0.7)"),
+            borderColor: "#38bdf8",
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { title: { display: true, text: "Monte Carlo 5-Yr NPV Distribution (1,000 Runs)", color: "#e2e8f0" } },
+          scales: {
+            x: { ticks: { color: "#94a3b8" } },
+            y: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(148,163,184,0.15)" } }
+          }
+        }
+      });
+    }
+
+    // Wait briefly for Chart.js defer script to initialize
+    setTimeout(runRiskSuite, 250);
+    document.getElementById("btn-run-mc").addEventListener("click", runRiskSuite);
+  });
+  </script>
 </main>
 <footer><p>Python models and tests in <code>models/</code> and <code>tools/</code>. This page re-implements the same equations in JavaScript and checks itself against <code>data/baseline_10tpd_nairobi.json</code>.</p></footer>
 </body>
