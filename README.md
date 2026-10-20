@@ -2,7 +2,7 @@
 
 Coupled mass balance, energy balance and techno-economic model of a rotary-kiln plant converting end-of-life tyres (ELT) to tyre pyrolysis oil (TPO), recovered carbon black (rCB), steel and syngas. A Python engine produces the reference numbers; a zero-build web dashboard re-implements the same equations and verifies itself against them on load.
 
-**Live demo:** `https://<your-username>.github.io/waste-tyre-pyrolysis-simulator/`
+**Live demo:** [🚀 Launch Interactive Simulator & SVG Process Flow Diagram](https://alkim8300-ops.github.io/waste-tyre-pyrolysis-simulator./)
 
 ## Model
 
@@ -57,3 +57,8 @@ GitHub Pages cannot publish from `/web`, only from `/` or `/docs`, so this repo 
 
 - `waste-tyre-pyrolysis-simulator_bundle.md`: every source file in one text file, with a briefing header (commands, baseline numbers, invariants, open items). Upload this one file to Gemini, ChatGPT or Claude when you want help changing the code.
 - `waste-tyre-pyrolysis-simulator.html`: the dashboard as a single self-contained file that opens by double-click or can be pasted into Gemini Canvas. Only Chart.js still loads from a CDN.
+## New Engineering & Data Pipeline Features
+
+* **NEMA $\text{H}_2\text{S}$ Caustic Scrubber (`U-106`):** Stoichiometric $\text{NaOH}$ scrubbing model neutralizing sour $\text{H}_2\text{S}$ gas prior to kiln burner combustion.
+* **Interactive SVG Process Flow Diagram (`web/index.html`):** Clickable unit operations (`U-101` to `U-106`) displaying live stream mass and thermal duties.
+* **Unsupervised Kiln Telemetry Anomaly Detector (`tools/telemetry_anomaly_detector.py`):** Simulates 500-minute rotary kiln sensor streams ($T_{\text{kiln}}$, $P_{\text{kiln}}$, $\text{O}_2\text{ vol\%}$) and uses Euclidean Z-score thresholding ($Z > 3.2$) to flag condenser paraffin wax fouling and rotary seal oxygen leaks with Precision, Recall, and $F_1$ reporting.
