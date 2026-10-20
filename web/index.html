@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10-TPD Waste Tyre Pyrolysis Process & TEA Simulator | Engineering Portfolio</title>
+<meta name="description" content="Interactive mass balance, energy balance and techno-economic model of a 10-TPD end-of-life tyre pyrolysis plant, calibrated for Nairobi, Kenya.">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="hero">
+  <h1>End-of-life tyre pyrolysis: process and economics simulator</h1>
+  <p>Coupled mass, energy and financial model of a 10-TPD rotary-kiln plant, Nairobi Industrial Area basis.</p>
+  <p id="verify" class="badge" role="status">Checking model against Python baseline…</p>
+</header>
+
+<main class="dashboard-grid">
+  <section class="controls-card" aria-labelledby="h-controls">
+    <h2 id="h-controls">Plant operating controls</h2>
+    <div id="sliders"></div>
+    <div class="kpi-strip" aria-live="polite">
+      <div><span>TPO output</span><strong id="kpi-tpo"></strong></div>
+      <div><span>Syngas self-sufficiency</span><strong id="kpi-energy"></strong></div>
+      <div><span>Annual EBITDA</span><strong id="kpi-ebitda"></strong></div>
+      <div><span>5-yr NPV (14%)</span><strong id="kpi-npv"></strong></div>
+      <div><span>Payback period</span><strong id="kpi-payback"></strong></div>
+      <div><span>IRR (5-yr)</span><strong id="kpi-irr"></strong></div>
+      <div><span>CO<sub>2</sub>e avoided</span><strong id="kpi-co2"></strong></div>
+      <div><span>CAPEX</span><strong id="kpi-capex"></strong></div>
+    </div>
+  </section>
+
+  <section class="charts-card" aria-label="Charts">
+    <div class="chart-box"><canvas id="yieldChart" role="img" aria-label="Product yield versus kiln temperature"></canvas></div>
+    <div class="chart-box"><canvas id="cashflowChart" role="img" aria-label="Cumulative cash position by year"></canvas></div>
+  </section>
+
+  <section class="pfd-card" aria-labelledby="h-pfd">
+    <h2 id="h-pfd">Process flow diagram: select a unit for live mass and duty values</h2>
+    <div class="pfd-nodes" role="group" aria-label="Process units">
+      <button class="pfd-btn active" data-unit="U101" aria-pressed="true">U-101 Shredder</button>
+      <button class="pfd-btn" data-unit="U102" aria-pressed="false">U-102 Magnetic separator</button>
+      <button class="pfd-btn" data-unit="U103" aria-pressed="false">U-103 Rotary kiln</button>
+      <button class="pfd-btn" data-unit="U104" aria-pressed="false">U-104 Char cooling</button>
+      <button class="pfd-btn" data-unit="U105" aria-pressed="false">U-105 Condenser</button>
+      <button class="pfd-btn" data-unit="U106" aria-pressed="false">U-106 NaOH scrubber</button>
+    </div>
+    <div id="unit-inspector" class="inspector-panel" aria-live="polite"></div>
+    <p class="note">Cleaned syngas returns to the kiln furnace. At baseline it supplies several times the furnace duty, so the surplus is exportable.</p>
+  </section>
+
+  <section class="smart-card" aria-labelledby="h-smart">
+    <h2 id="h-smart">Smart plant telemetry and computer-vision QA</h2>
+    <div class="two-col">
+      <div>
+        <h3>Optical conveyor QA</h3>
+        <p>An RGB-D camera above the conveyor between U-102 and U-103 runs YOLOv8-seg and OpenCV contour analysis on an edge device (Jetson Nano).</p>
+        <ul>
+          <li>Particle size: Feret diameter per chip. Diverter gate opens if more than 8% of chips exceed 55 mm, since oversize chips leave un-pyrolysed cores.</li>
+          <li>Tramp material: flags exposed bead wire and road stones before they reach the screw feeder.</li>
+        </ul>
+        <h3>Kiln anomaly thresholds</h3>
+        <ul>
+          <li>Kiln pressure: pre-alarm 2.8 kPa, alarm 3.0 kPa (condenser wax blockage), trip 3.5 kPa.</li>
+          <li>Kiln O<sub>2</sub>: pre-alarm 0.85 vol%, N<sub>2</sub> purge interlock at 1.0 vol%.</li>
+          <li>Char discharge: alarm above 65 °C (spontaneous combustion risk).</li>
+          <li>Scrubber pH: NaOH dosing pump opens below 8.2.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>PLC payload (Modbus, every 5 s)</h3>
+<pre><code>{
+  "timestamp_utc": "2026-10-20T09:15:00Z",
+  "plant_id": "NBO-KILN-01",
+  "telemetry": {
+    "u103_kiln_temp_c": 502.4,
+    "u103_kiln_pressure_kpa": 1.62,
+    "u103_oxygen_vol_pct": 0.28,
+    "u104_char_discharge_temp_c": 51.8,
+    "u105_condenser_delta_t_c": 14.6,
+    "u106_scrubber_ph": 9.4
+  }
+}</code></pre>
+        <h3>TimescaleDB pre-alarm query</h3>
+<pre><code>SELECT time_bucket('1 minute', timestamp_utc) AS minute_window,
+       AVG(u103_kiln_pressure_kpa) AS avg_press_kpa,
+       MAX(u103_oxygen_vol_pct)    AS peak_o2_pct
+FROM kiln_telemetry
+WHERE timestamp_utc &gt; NOW() - INTERVAL '15 minutes'
+GROUP BY minute_window
+HAVING AVG(u103_kiln_pressure_kpa) &gt; 2.8
+    OR MAX(u103_oxygen_vol_pct)    &gt; 0.85;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="assump-card">
+    <details>
+      <summary>Basis, assumptions and limits of this model</summary>
+      <ul>
+        <li>Yield polynomials are valid for 400–600 °C at 15 °C/min and 45 min solid residence time. They are empirical fits, not a kinetic model.</li>
+        <li>Prices (TPO $550/t, rCB $380/t, steel $220/t), ELT cost ($25/t) and CAPEX ($280,000 at 10 TPD) are project inputs, not market quotes. Use the price sliders to stress-test them.</li>
+        <li>Cash flow = EBITDA minus 30% tax on (EBITDA minus 10-year straight-line depreciation). No ramp-up, working-capital or financing effects.</li>
+        <li>CAPEX scales with a 0.65 capacity exponent. Labour scales with the square root of capacity.</li>
+        <li>CO<sub>2</sub>e avoided uses 0.85 t per tonne of tyres, an unsourced placeholder.</li>
+        <li>Condenser duty assumes 10 K cooling-water rise and the heat capacities listed in <code>models/mass_energy_balance.py</code>.</li>
+      </ul>
+    </details>
+  </section>
+</main>
+<footer><p>Python models and tests in <code>models/</code>. This page re-implements the same equations in JavaScript and checks itself against <code>data/baseline_10tpd_nairobi.json</code>.</p></footer>
+</body>
+</html>

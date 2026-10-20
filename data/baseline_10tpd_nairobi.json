@@ -1,0 +1,393 @@
+{
+  "basis": "10 TPD whole ELT, 300 d/yr, Nairobi",
+  "scenarios": [
+    {
+      "temp_c": 420,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 3.684,
+      "rcb_tpd": 4.0188,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 1.0972,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 15.4126,
+      "syngas_energy_gj_day": 41.6936,
+      "self_sufficiency_pct": 270.5171,
+      "surplus_syngas_gj_day": 26.281,
+      "condenser_duty_gj_day": 5.0704,
+      "condenser_cooling_water_m3_day": 121.3012,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1145203,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 908203,
+      "net_profit_usd_yr": 616142,
+      "after_tax_cashflow_usd_yr": 644142,
+      "payback_yr": 0.435,
+      "npv_usd": 1931392,
+      "irr_pct": 229.5,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 607860,
+        "rcb": 458143,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 12.62,
+        "naoh_kg_day_stoich": 29.62,
+        "so2_kg_day_if_unscrubbed": 23.72
+      }
+    },
+    {
+      "temp_c": 440,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.006,
+      "rcb_tpd": 3.5652,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 1.2288,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 15.8892,
+      "syngas_energy_gj_day": 46.6944,
+      "self_sufficiency_pct": 293.8747,
+      "surplus_syngas_gj_day": 30.8052,
+      "condenser_duty_gj_day": 5.7665,
+      "condenser_cooling_water_m3_day": 137.9539,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1146623,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 909623,
+      "net_profit_usd_yr": 617136,
+      "after_tax_cashflow_usd_yr": 645136,
+      "payback_yr": 0.434,
+      "npv_usd": 1934804,
+      "irr_pct": 229.8,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 660990,
+        "rcb": 406433,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 14.13,
+        "naoh_kg_day_stoich": 33.17,
+        "so2_kg_day_if_unscrubbed": 26.57
+      }
+    },
+    {
+      "temp_c": 460,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.236,
+      "rcb_tpd": 3.1892,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 1.3748,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 16.3659,
+      "syngas_energy_gj_day": 52.2424,
+      "self_sufficiency_pct": 319.2152,
+      "surplus_syngas_gj_day": 35.8765,
+      "condenser_duty_gj_day": 6.4,
+      "condenser_cooling_water_m3_day": 153.111,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1141709,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 904709,
+      "net_profit_usd_yr": 613696,
+      "after_tax_cashflow_usd_yr": 641696,
+      "payback_yr": 0.436,
+      "npv_usd": 1922995,
+      "irr_pct": 228.6,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 698940,
+        "rcb": 363569,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 15.81,
+        "naoh_kg_day_stoich": 37.11,
+        "so2_kg_day_if_unscrubbed": 29.72
+      }
+    },
+    {
+      "temp_c": 480,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.374,
+      "rcb_tpd": 2.8908,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 1.5352,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 16.8426,
+      "syngas_energy_gj_day": 58.3376,
+      "self_sufficiency_pct": 346.3702,
+      "surplus_syngas_gj_day": 41.495,
+      "condenser_duty_gj_day": 6.9607,
+      "condenser_cooling_water_m3_day": 166.5233,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1130461,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 893461,
+      "net_profit_usd_yr": 605823,
+      "after_tax_cashflow_usd_yr": 633823,
+      "payback_yr": 0.442,
+      "npv_usd": 1895965,
+      "irr_pct": 225.7,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 721710,
+        "rcb": 329551,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 17.65,
+        "naoh_kg_day_stoich": 41.44,
+        "so2_kg_day_if_unscrubbed": 33.19
+      }
+    },
+    {
+      "temp_c": 500,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.42,
+      "rcb_tpd": 2.67,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 1.71,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 17.3192,
+      "syngas_energy_gj_day": 64.98,
+      "self_sufficiency_pct": 375.1901,
+      "surplus_syngas_gj_day": 47.6608,
+      "condenser_duty_gj_day": 7.438,
+      "condenser_cooling_water_m3_day": 177.9416,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1112880,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 875880,
+      "net_profit_usd_yr": 593516,
+      "after_tax_cashflow_usd_yr": 621516,
+      "payback_yr": 0.451,
+      "npv_usd": 1853715,
+      "irr_pct": 221.3,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 729300,
+        "rcb": 304380,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 19.66,
+        "naoh_kg_day_stoich": 46.16,
+        "so2_kg_day_if_unscrubbed": 36.97
+      }
+    },
+    {
+      "temp_c": 520,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.374,
+      "rcb_tpd": 2.5268,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 1.8992,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 17.7959,
+      "syngas_energy_gj_day": 72.1696,
+      "self_sufficiency_pct": 405.5409,
+      "surplus_syngas_gj_day": 54.3737,
+      "condenser_duty_gj_day": 7.8215,
+      "condenser_cooling_water_m3_day": 187.1168,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1088965,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 851965,
+      "net_profit_usd_yr": 576776,
+      "after_tax_cashflow_usd_yr": 604776,
+      "payback_yr": 0.463,
+      "npv_usd": 1796244,
+      "irr_pct": 215.3,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 721710,
+        "rcb": 288055,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 21.84,
+        "naoh_kg_day_stoich": 51.27,
+        "so2_kg_day_if_unscrubbed": 41.06
+      }
+    },
+    {
+      "temp_c": 540,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.236,
+      "rcb_tpd": 2.4612,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 2.1028,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 18.2726,
+      "syngas_energy_gj_day": 79.9064,
+      "self_sufficiency_pct": 437.3028,
+      "surplus_syngas_gj_day": 61.6338,
+      "condenser_duty_gj_day": 8.1008,
+      "condenser_cooling_water_m3_day": 193.7996,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1058717,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 821717,
+      "net_profit_usd_yr": 555602,
+      "after_tax_cashflow_usd_yr": 583602,
+      "payback_yr": 0.48,
+      "npv_usd": 1723552,
+      "irr_pct": 207.7,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 698940,
+        "rcb": 280577,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 24.18,
+        "naoh_kg_day_stoich": 56.77,
+        "so2_kg_day_if_unscrubbed": 45.46
+      }
+    },
+    {
+      "temp_c": 560,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 4.006,
+      "rcb_tpd": 2.4732,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 2.3208,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 18.7492,
+      "syngas_energy_gj_day": 88.1904,
+      "self_sufficiency_pct": 470.3683,
+      "surplus_syngas_gj_day": 69.4412,
+      "condenser_duty_gj_day": 8.2656,
+      "condenser_cooling_water_m3_day": 197.7409,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 1022135,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 785135,
+      "net_profit_usd_yr": 529994,
+      "after_tax_cashflow_usd_yr": 557994,
+      "payback_yr": 0.502,
+      "npv_usd": 1635640,
+      "irr_pct": 198.4,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 660990,
+        "rcb": 281945,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 26.69,
+        "naoh_kg_day_stoich": 62.65,
+        "so2_kg_day_if_unscrubbed": 50.18
+      }
+    },
+    {
+      "temp_c": 580,
+      "feed_tpd": 10.0,
+      "tpo_tpd": 3.684,
+      "rcb_tpd": 2.5628,
+      "steel_tpd": 1.2,
+      "syngas_tpd": 2.5532,
+      "wastewater_tpd": 0.12,
+      "reactor_duty_gj_day": 19.2259,
+      "syngas_energy_gj_day": 97.0216,
+      "self_sufficiency_pct": 504.6404,
+      "surplus_syngas_gj_day": 77.7957,
+      "condenser_duty_gj_day": 8.3053,
+      "condenser_cooling_water_m3_day": 198.6915,
+      "capex_usd": 280000,
+      "revenue_usd_yr": 979219,
+      "opex_usd_yr": 237000,
+      "ebitda_usd_yr": 742219,
+      "net_profit_usd_yr": 499953,
+      "after_tax_cashflow_usd_yr": 527953,
+      "payback_yr": 0.53,
+      "npv_usd": 1532507,
+      "irr_pct": 187.6,
+      "co2e_avoided_t_yr": 2550,
+      "revenue_breakdown": {
+        "tpo": 607860,
+        "rcb": 292159,
+        "steel": 79200
+      },
+      "opex_breakdown": {
+        "feedstock": 75000,
+        "power_naoh": 61800,
+        "labour": 78000,
+        "maintenance": 22200
+      },
+      "scrubber": {
+        "h2s_kg_day": 29.36,
+        "naoh_kg_day_stoich": 68.92,
+        "so2_kg_day_if_unscrubbed": 55.2
+      }
+    }
+  ],
+  "assumptions": {
+    "capex_base": 280000.0,
+    "capex_exp": 0.65,
+    "elt_cost": 25.0,
+    "power_kwh_t": 115.0,
+    "power_tariff": 0.14,
+    "naoh_cost_t": 4.5,
+    "labour_base": 78000.0,
+    "maint_base": 22200.0,
+    "tpo_price": 550.0,
+    "rcb_price": 380.0,
+    "steel_price": 220.0,
+    "tax": 0.3,
+    "discount": 0.14,
+    "horizon_yr": 5,
+    "dep_years": 10,
+    "co2e_per_t_elt": 0.85,
+    "h2s_wt": 0.0115
+  }
+}
