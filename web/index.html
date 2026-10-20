@@ -38,15 +38,91 @@
   </section>
 
   <section class="pfd-card" aria-labelledby="h-pfd">
-    <h2 id="h-pfd">Process flow diagram: select a unit for live mass and duty values</h2>
-    <div class="pfd-nodes" role="group" aria-label="Process units">
-      <button class="pfd-btn active" data-unit="U101" aria-pressed="true">U-101 Shredder</button>
-      <button class="pfd-btn" data-unit="U102" aria-pressed="false">U-102 Magnetic separator</button>
-      <button class="pfd-btn" data-unit="U103" aria-pressed="false">U-103 Rotary kiln</button>
-      <button class="pfd-btn" data-unit="U104" aria-pressed="false">U-104 Char cooling</button>
-      <button class="pfd-btn" data-unit="U105" aria-pressed="false">U-105 Condenser</button>
-      <button class="pfd-btn" data-unit="U106" aria-pressed="false">U-106 NaOH scrubber</button>
+    <h2 id="h-pfd">Interactive Process Flow Diagram (PFD): click any unit operation to inspect live stream duties</h2>
+    
+    <div class="pfd-svg-wrapper" role="group" aria-label="Interactive Process Flow Diagram">
+      <svg viewBox="0 0 920 270" class="pfd-svg">
+        <defs>
+          <marker id="arrow-solid" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+          </marker>
+          <marker id="arrow-gas" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+          </marker>
+          <marker id="arrow-char" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#a855f7"/>
+          </marker>
+        </defs>
+
+        <!-- Process Piping & Stream Lines -->
+        <!-- U101 -> U102 -->
+        <line x1="145" y1="115" x2="195" y2="115" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow-solid)"/>
+        <!-- U102 -> U103 -->
+        <line x1="325" y1="115" x2="385" y2="115" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow-solid)"/>
+        <!-- U102 -> Steel Wire Recovery -->
+        <line x1="260" y1="150" x2="260" y2="205" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="260" y="222" fill="#94a3b8" font-size="11" text-anchor="middle">Steel Wire</text>
+
+        <!-- U103 -> U105 (Pyrolysis Vapour Overhead) -->
+        <path d="M 465 80 L 465 45 L 640 45 L 640 70" fill="none" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-gas)"/>
+        <text x="552" y="36" fill="#fbbf24" font-size="11" text-anchor="middle">Pyrolysis Vapour (400–600 °C)</text>
+
+        <!-- U103 -> U104 (Hot Char Bottoms) -->
+        <path d="M 465 150 L 465 205 L 575 205" fill="none" stroke="#a855f7" stroke-width="3" marker-end="url(#arrow-char)"/>
+        <!-- U104 -> rCB Product -->
+        <line x1="705" y1="205" x2="755" y2="205" stroke="#a855f7" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="800" y="209" fill="#c084fc" font-size="11">rCB Char</text>
+
+        <!-- U105 -> TPO Storage -->
+        <line x1="640" y1="140" x2="640" y2="165" stroke="#10b981" stroke-width="3"/>
+        <text x="640" y="180" fill="#34d399" font-size="11" text-anchor="middle">TPO Oil</text>
+
+        <!-- U105 -> U106 (NCG Sour Gas) -->
+        <line x1="705" y1="105" x2="765" y2="105" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-gas)"/>
+
+        <!-- U106 -> U103 (Cleaned Syngas Fuel Recycle Loop) -->
+        <path d="M 830 140 L 830 248 L 425 248 L 425 155" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrow-solid)"/>
+        <text x="625" y="263" fill="#34d399" font-size="11" text-anchor="middle">Sweetened Syngas Recycle to Kiln Burners (H₂S Scrubbed)</text>
+
+        <!-- Clickable Unit Nodes (Buttons preserved for app.js compatibility) -->
+        <g class="pfd-btn active" data-unit="U101" role="button" tabindex="0" aria-pressed="true">
+          <rect x="20" y="80" width="125" height="70" rx="8"/>
+          <text x="82" y="108" class="u-id">U-101</text>
+          <text x="82" y="128" class="u-name">Primary Shredder</text>
+        </g>
+
+        <g class="pfd-btn" data-unit="U102" role="button" tabindex="0" aria-pressed="false">
+          <rect x="200" y="80" width="125" height="70" rx="8"/>
+          <text x="262" y="108" class="u-id">U-102</text>
+          <text x="262" y="128" class="u-name">Mag. Separator</text>
+        </g>
+
+        <g class="pfd-btn" data-unit="U103" role="button" tabindex="0" aria-pressed="false">
+          <rect x="390" y="80" width="150" height="70" rx="8"/>
+          <text x="465" y="108" class="u-id">U-103</text>
+          <text x="465" y="128" class="u-name">Rotary Kiln Reactor</text>
+        </g>
+
+        <g class="pfd-btn" data-unit="U104" role="button" tabindex="0" aria-pressed="false">
+          <rect x="580" y="175" width="125" height="60" rx="8"/>
+          <text x="642" y="200" class="u-id">U-104</text>
+          <text x="642" y="218" class="u-name">Char Screw Cooler</text>
+        </g>
+
+        <g class="pfd-btn" data-unit="U105" role="button" tabindex="0" aria-pressed="false">
+          <rect x="575" y="75" width="130" height="65" rx="8"/>
+          <text x="640" y="102" class="u-id">U-105</text>
+          <text x="640" y="122" class="u-name">Shell &amp; Tube Cond.</text>
+        </g>
+
+        <g class="pfd-btn" data-unit="U106" role="button" tabindex="0" aria-pressed="false">
+          <rect x="770" y="75" width="125" height="65" rx="8"/>
+          <text x="832" y="102" class="u-id">U-106</text>
+          <text x="832" y="122" class="u-name">NaOH H₂S Scrubber</text>
+        </g>
+      </svg>
     </div>
+
     <div id="unit-inspector" class="inspector-panel" aria-live="polite"></div>
     <p class="note">Cleaned syngas returns to the kiln furnace. At baseline it supplies several times the furnace duty, so the surplus is exportable.</p>
   </section>
@@ -61,12 +137,12 @@
           <li>Particle size: Feret diameter per chip. Diverter gate opens if more than 8% of chips exceed 55 mm, since oversize chips leave un-pyrolysed cores.</li>
           <li>Tramp material: flags exposed bead wire and road stones before they reach the screw feeder.</li>
         </ul>
-        <h3>Kiln anomaly thresholds</h3>
+        <h3>Kiln anomaly thresholds (<code>tools/telemetry_anomaly_detector.py</code>)</h3>
         <ul>
-          <li>Kiln pressure: pre-alarm 2.8 kPa, alarm 3.0 kPa (condenser wax blockage), trip 3.5 kPa.</li>
-          <li>Kiln O<sub>2</sub>: pre-alarm 0.85 vol%, N<sub>2</sub> purge interlock at 1.0 vol%.</li>
-          <li>Char discharge: alarm above 65 °C (spontaneous combustion risk).</li>
-          <li>Scrubber pH: NaOH dosing pump opens below 8.2.</li>
+          <li>Multivariate Euclidean Z-Score detector (threshold <i>Z</i> &gt; 3.2) calibrated on steady-state sensor streams.</li>
+          <li>Kiln pressure: pre-alarm 2.8 kPa, alarm 3.0 kPa (condenser paraffin wax blockage), trip 3.5 kPa.</li>
+          <li>Kiln O<sub>2</sub>: pre-alarm 0.85 vol%, N<sub>2</sub> purge interlock at 1.0 vol% (rotary seal leak / thermal runaway prevention).</li>
+          <li>Scrubber pH: NaOH dosing pump opens below pH 8.2 to guarantee NEMA H<sub>2</sub>S compliance.</li>
         </ul>
       </div>
       <div>
@@ -110,6 +186,6 @@ HAVING AVG(u103_kiln_pressure_kpa) &gt; 2.8
     </details>
   </section>
 </main>
-<footer><p>Python models and tests in <code>models/</code>. This page re-implements the same equations in JavaScript and checks itself against <code>data/baseline_10tpd_nairobi.json</code>.</p></footer>
+<footer><p>Python models and tests in <code>models/</code> and <code>tools/</code>. This page re-implements the same equations in JavaScript and checks itself against <code>data/baseline_10tpd_nairobi.json</code>.</p></footer>
 </body>
 </html>
