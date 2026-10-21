@@ -27,7 +27,7 @@
       <div><span>5-yr NPV (14%)</span><strong id="kpi-npv"></strong></div>
       <div><span>Payback period</span><strong id="kpi-payback"></strong></div>
       <div><span>IRR (5-yr)</span><strong id="kpi-irr"></strong></div>
-      <span>CO<sub>2</sub>e avoided (illustrative)</span><strong id="kpi-co2"></strong></div>
+      <div><span>CO<sub>2</sub>e avoided (illustrative)</span><strong id="kpi-co2"></strong></div>
       <div><span>CAPEX</span><strong id="kpi-capex"></strong></div>
     </div>
   </section>
@@ -213,7 +213,7 @@ HAVING AVG(u103_kiln_pressure_kpa) &gt; 2.8
   </section>
 
   <script>
-  window.addEventListener("DOMContentLoaded", () => {
+ window.addEventListener("load", () => {
     // Baseline 10-TPD reference parameters matching data/baseline_10tpd_nairobi.json
     const BASE = {
       tpo_price: 550, rcb_price: 380, steel_price: 220, elt_cost: 25,
