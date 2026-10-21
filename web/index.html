@@ -41,7 +41,7 @@
     <h2 id="h-pfd">Interactive Process Flow Diagram (PFD): click any unit operation to inspect live stream duties</h2>
     
     <div class="pfd-svg-wrapper" role="group" aria-label="Interactive Process Flow Diagram">
-      <svg viewBox="0 0 920 270" class="pfd-svg">
+     <svg viewBox="0 0 920 300" class="pfd-svg">
         <defs>
           <marker id="arrow-solid" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
@@ -52,6 +52,9 @@
           <marker id="arrow-char" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 1 L 10 5 L 0 9 z" fill="#a855f7"/>
           </marker>
+          <marker id="arrow-oil" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+          </marker>
         </defs>
 
         <!-- Process Piping & Stream Lines -->
@@ -60,31 +63,31 @@
         <!-- U102 -> U103 -->
         <line x1="325" y1="115" x2="385" y2="115" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow-solid)"/>
         <!-- U102 -> Steel Wire Recovery -->
-        <line x1="260" y1="150" x2="260" y2="205" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 3"/>
-        <text x="260" y="222" fill="#94a3b8" font-size="11" text-anchor="middle">Steel Wire</text>
+        <line x1="262" y1="150" x2="262" y2="210" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="262" y="228" fill="#94a3b8" font-size="11" text-anchor="middle">Steel Wire</text>
 
         <!-- U103 -> U105 (Pyrolysis Vapour Overhead) -->
-        <path d="M 465 80 L 465 45 L 640 45 L 640 70" fill="none" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-gas)"/>
-        <text x="552" y="36" fill="#fbbf24" font-size="11" text-anchor="middle">Pyrolysis Vapour (400–600 °C)</text>
+        <path d="M 465 80 L 465 42 L 640 42 L 640 65" fill="none" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-gas)"/>
+        <text x="552" y="32" fill="#fbbf24" font-size="11" text-anchor="middle">Pyrolysis Vapour (400–600 °C)</text>
 
         <!-- U103 -> U104 (Hot Char Bottoms) -->
-        <path d="M 465 150 L 465 205 L 575 205" fill="none" stroke="#a855f7" stroke-width="3" marker-end="url(#arrow-char)"/>
-        <!-- U104 -> rCB Product -->
-        <line x1="705" y1="205" x2="755" y2="205" stroke="#a855f7" stroke-width="2" stroke-dasharray="4 3"/>
-        <text x="800" y="209" fill="#c084fc" font-size="11">rCB Char</text>
+        <path d="M 465 150 L 465 225 L 572 225" fill="none" stroke="#a855f7" stroke-width="3" marker-end="url(#arrow-char)"/>
+        <!-- U104 -> rCB Product (stops cleanly before the green recycle line) -->
+        <line x1="705" y1="225" x2="755" y2="225" stroke="#a855f7" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrow-char)"/>
+        <text x="795" y="229" fill="#c084fc" font-size="11" text-anchor="middle">rCB Char</text>
 
-        <!-- U105 -> TPO Storage -->
-        <line x1="640" y1="140" x2="640" y2="165" stroke="#10b981" stroke-width="3"/>
-        <text x="640" y="180" fill="#34d399" font-size="11" text-anchor="middle">TPO Oil</text>
+        <!-- U105 -> TPO Storage (plenty of clearance above U104) -->
+        <line x1="640" y1="135" x2="640" y2="162" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-oil)"/>
+        <text x="640" y="178" fill="#34d399" font-size="11" font-weight="600" text-anchor="middle">TPO Oil</text>
 
         <!-- U105 -> U106 (NCG Sour Gas) -->
-        <line x1="705" y1="105" x2="765" y2="105" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-gas)"/>
+        <line x1="705" y1="102" x2="765" y2="102" stroke="#f59e0b" stroke-width="3" marker-end="url(#arrow-gas)"/>
 
-        <!-- U106 -> U103 (Cleaned Syngas Fuel Recycle Loop) -->
-        <path d="M 830 140 L 830 248 L 425 248 L 425 155" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrow-solid)"/>
-        <text x="625" y="263" fill="#34d399" font-size="11" text-anchor="middle">Sweetened Syngas Recycle to Kiln Burners (H₂S Scrubbed)</text>
+        <!-- U106 -> U103 (Cleaned Syngas Fuel Recycle Loop routed around at x=860, y=270) -->
+        <path d="M 860 135 L 860 270 L 425 270 L 425 155" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#arrow-solid)"/>
+        <text x="642" y="288" fill="#34d399" font-size="11" text-anchor="middle">Sweetened Syngas Recycle to Kiln Burners (H₂S Scrubbed)</text>
 
-        <!-- Clickable Unit Nodes (Buttons preserved for app.js compatibility) -->
+        <!-- Clickable Unit Nodes -->
         <g class="pfd-btn active" data-unit="U101" role="button" tabindex="0" aria-pressed="true">
           <rect x="20" y="80" width="125" height="70" rx="8"/>
           <text x="82" y="108" class="u-id">U-101</text>
@@ -104,21 +107,21 @@
         </g>
 
         <g class="pfd-btn" data-unit="U104" role="button" tabindex="0" aria-pressed="false">
-          <rect x="580" y="175" width="125" height="60" rx="8"/>
-          <text x="642" y="200" class="u-id">U-104</text>
-          <text x="642" y="218" class="u-name">Char Screw Cooler</text>
+          <rect x="580" y="195" width="125" height="60" rx="8"/>
+          <text x="642" y="220" class="u-id">U-104</text>
+          <text x="642" y="238" class="u-name">Char Screw Cooler</text>
         </g>
 
         <g class="pfd-btn" data-unit="U105" role="button" tabindex="0" aria-pressed="false">
-          <rect x="575" y="75" width="130" height="65" rx="8"/>
-          <text x="640" y="102" class="u-id">U-105</text>
-          <text x="640" y="122" class="u-name">Shell &amp; Tube Cond.</text>
+          <rect x="575" y="70" width="130" height="65" rx="8"/>
+          <text x="640" y="97" class="u-id">U-105</text>
+          <text x="640" y="117" class="u-name">Shell &amp; Tube Cond.</text>
         </g>
 
         <g class="pfd-btn" data-unit="U106" role="button" tabindex="0" aria-pressed="false">
-          <rect x="770" y="75" width="125" height="65" rx="8"/>
-          <text x="832" y="102" class="u-id">U-106</text>
-          <text x="832" y="122" class="u-name">NaOH H₂S Scrubber</text>
+          <rect x="770" y="70" width="125" height="65" rx="8"/>
+          <text x="832" y="97" class="u-id">U-106</text>
+          <text x="832" y="117" class="u-name">NaOH H₂S Scrubber</text>
         </g>
       </svg>
     </div>
