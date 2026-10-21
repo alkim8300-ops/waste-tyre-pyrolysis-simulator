@@ -134,7 +134,7 @@
     <h2 id="h-smart">Smart plant telemetry and computer-vision QA (Design Proposal)</h2>
     <div class="two-col">
       <div>
-        <h3>Optical conveyor QA</h3>
+        <h3>Optical conveyor QA (proposed edge architecture)</h3>
         <p>An RGB-D camera above the conveyor between U-102 and U-103 runs YOLOv8-seg and OpenCV contour analysis on an edge device (Jetson Nano).</p>
         <ul>
           <li>Particle size: Feret diameter per chip. Diverter gate opens if more than 8% of chips exceed 55 mm, since oversize chips leave un-pyrolysed cores.</li>
@@ -145,7 +145,7 @@
           <li>Multivariate Euclidean Z-Score detector (threshold <i>Z</i> &gt; 3.2) calibrated on steady-state sensor streams.</li>
           <li>Kiln pressure: pre-alarm 2.8 kPa, alarm 3.0 kPa (condenser paraffin wax blockage), trip 3.5 kPa.</li>
           <li>Kiln O<sub>2</sub>: pre-alarm 0.85 vol%, N<sub>2</sub> purge interlock at 1.0 vol% (rotary seal leak / thermal runaway prevention).</li>
-          <li>Scrubber pH: NaOH dosing pump opens below pH 8.2 to guarantee NEMA H<sub>2</sub>S compliance.</li>
+          <li>Scrubber pH: NaOH dosing pump opens below pH 8.2 to support NEMA H<sub>2</sub>S compliance.</li>
         </ul>
       </div>
       <div>
@@ -376,6 +376,6 @@ HAVING AVG(u103_kiln_pressure_kpa) &gt; 2.8
   });
   </script>
 </main>
-<footer><p>Python models and tests in <code>models/</code> and <code>tools/</code>. This page re-implements the same equations in JavaScript and checks itself against <code>data/baseline_10tpd_nairobi.json</code>.</p></footer>
+<footer><p>&copy; 2026 Allan Kimosop Kipkemboi. Licensed under the MIT License. Python models and tests in <code>models/</code> and <code>tools/</code>. This page re-implements the same equations in JavaScript and checks itself against <code>data/baseline_10tpd_nairobi.json</code>.</p></footer>
 </body>
 </html>
