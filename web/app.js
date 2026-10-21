@@ -130,5 +130,7 @@ function verify() {
   }).catch(() => set('', 'Python baseline not loaded (serve the folder over HTTP to enable the check)'));
 }
 
-window.addEventListener('DOMContentLoaded', () => { initCharts(); update(); verify(); });
+const boot = () => { initCharts(); update(); verify(); };
+if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', boot);
+else boot();
 })();
