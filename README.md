@@ -3,7 +3,7 @@
 Coupled mass balance, energy balance and techno-economic model of a rotary-kiln plant converting end-of-life tyres (ELT) to tyre pyrolysis oil (TPO), recovered carbon black (rCB), steel and syngas. A Python engine produces the reference numbers; a zero-build web dashboard re-implements the same equations and verifies itself against them on load.
 
 **Live demo:** [🚀 Launch Interactive Simulator & SVG Process Flow Diagram](https://alkim8300-ops.github.io/waste-tyre-pyrolysis-simulator./)
-
+![Interactive Process Flow Diagram & Simulator Preview](dashboard-preview.png)
 ## Model
 
 Yields, % of whole tyre, valid for 400 °C ≤ T ≤ 600 °C (15 °C/min, 45 min residence):
@@ -49,16 +49,25 @@ GitHub Pages cannot publish from `/web`, only from `/` or `/docs`, so this repo 
 - Moisture (1.2 wt%) is carried inside the by-difference rCB remainder, so mass closes exactly to the feed.
 - Cash flow is EBITDA less tax on (EBITDA − 10-year straight-line depreciation). No ramp-up, working capital or financing.
 - Condenser duty uses assumed vapour heat capacities and a 10 K cooling-water rise (constants at the top of `mass_energy_balance.py`).
-- The CO₂e factor (0.85 t/t ELT) is a placeholder and needs a source. NEMA stack limits are not encoded; add them from the Environmental Management and Co-ordination (Air Quality) Regulations before claiming compliance.
+- The CO₂e factor illustrative(0.85 t/t ELT placeholder) is a placeholder and needs a source. NEMA stack limits are not encoded; add them from the Environmental Management and Co-ordination (Air Quality) Regulations before claiming compliance.
 
+
+## New Engineering & Data Pipeline Features
+
+* **NEMA $\text{H}_2\text{S}$ Caustic Scrubber (`U-106`):** Stoichiometric $\text{NaOH}$ scrubbing model neutralizing sour $\text{H}_2\text{S}$ gas prior to kiln burner combustion.
+* **Interactive SVG Process Flow Diagram (`web/index.html`):** Clickable unit operations (`U-101` to `U-106`) displaying live stream mass and thermal duties.
+* **Unsupervised Kiln Telemetry Anomaly Detector (`tools/telemetry_anomaly_detector.py`):** Simulates 500-minute rotary kiln sensor streams ($T_{\text{kiln}}$, $P_{\text{kiln}}$, $\text{O}_2\text{ vol\%}$) and uses Euclidean Z-score thresholding ($Z > 3.2$) to flag condenser paraffin wax fouling and rotary seal oxygen leaks with Precision, Recall, and $F_1$ reporting.
 ## Sharing with an AI assistant
 
 `python -m tools.bundle` writes two files to `dist/` (git-ignored):
 
 - `waste-tyre-pyrolysis-simulator_bundle.md`: every source file in one text file, with a briefing header (commands, baseline numbers, invariants, open items). Upload this one file to Gemini, ChatGPT or Claude when you want help changing the code.
 - `waste-tyre-pyrolysis-simulator.html`: the dashboard as a single self-contained file that opens by double-click or can be pasted into Gemini Canvas. Only Chart.js still loads from a CDN.
-## New Engineering & Data Pipeline Features
+- ---
 
-* **NEMA $\text{H}_2\text{S}$ Caustic Scrubber (`U-106`):** Stoichiometric $\text{NaOH}$ scrubbing model neutralizing sour $\text{H}_2\text{S}$ gas prior to kiln burner combustion.
-* **Interactive SVG Process Flow Diagram (`web/index.html`):** Clickable unit operations (`U-101` to `U-106`) displaying live stream mass and thermal duties.
-* **Unsupervised Kiln Telemetry Anomaly Detector (`tools/telemetry_anomaly_detector.py`):** Simulates 500-minute rotary kiln sensor streams ($T_{\text{kiln}}$, $P_{\text{kiln}}$, $\text{O}_2\text{ vol\%}$) and uses Euclidean Z-score thresholding ($Z > 3.2$) to flag condenser paraffin wax fouling and rotary seal oxygen leaks with Precision, Recall, and $F_1$ reporting.
+## License, Copyright & Attribution
+
+© 2026 **Allan Kimosop Kipkemboi**. Released under the [MIT License](LICENSE).
+
+**Attribution Requirement:** Any redistribution, public web deployment, or technical report using this simulator must include visible credit to **Allan Kimosop Kipkemboi** and a link back to this repository:
+> Kipkemboi, A. K. (2026). *10-TPD Waste Tyre Pyrolysis Process & TEA Simulator (Nairobi Basis)*. GitHub. https://github.com/alkim8300-ops/waste-tyre-pyrolysis-simulator
