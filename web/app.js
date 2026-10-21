@@ -120,7 +120,7 @@ document.querySelectorAll('.pfd-btn').forEach(b => b.addEventListener('click', (
 
 function verify() {
   const el = $('verify'), set = (cls, txt) => { el.className = 'badge ' + cls; el.textContent = txt; };
-  fetch('baseline_10tpd_nairobi.json').then(r => r.json()).then(d => {
+  fetch('https://raw.githubusercontent.com/alkim8300-ops/waste-tyre-pyrolysis-simulator/main/data/baseline_10tpd_nairobi.json').then(r => r.json()).then(d => {
     const bad = d.scenarios.filter(s => {
       const m = model({feed:10, temp:s.temp_c, days:300, tpo:550, rcb:380});
       return Math.abs(m.ebitda - s.ebitda_usd_yr) > 25 || Math.abs(m.tpo - s.tpo_tpd) > 1e-3 || Math.abs(m.ss - s.self_sufficiency_pct) > .05;
