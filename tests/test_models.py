@@ -29,6 +29,14 @@ class ModelTests(unittest.TestCase):
     def test_h2s_baseline(self):
         self.assertAlmostEqual(scrubber_stoichiometry(1.71)["h2s_kg_day"], 19.67, places=1)
 
-
+def test_raw_char_toggle_lowers_capex_and_revenue(self):
+        base = tea(500, 10, 300)  # Default: Upgraded rCB ($380/t + $65k CAPEX)
+        raw = tea(500, 10, 300, Assumptions(upgrade_char_to_rcb=False))
+        
+        # Verify the milling equipment CAPEX is stripped out
+        self.assertEqual(base["capex_usd"] - raw["capex_usd"], 65_000)
+        
+        # Verify the low-grade fuel char penalty drops top-line revenue
+        self.assertLess(raw["revenue_usd_yr"], base["revenue_usd_yr"])
 if __name__ == "__main__":
     unittest.main()
